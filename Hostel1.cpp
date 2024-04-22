@@ -90,8 +90,8 @@ class room
     {
         if(avability==1)
         {
+        cout<<"Room Number :"<<roomn<<"\n";
         cout<<"\t Room Allocation successsfull \n";
-        cout<<"room Number"<<roomn<<"\n";
         cout<<avability<<"\n";
         cout<<"\n Name of the student\n"<<name;
         cout<<"\n Enrollment Number of the student\n"<<enroll;
@@ -102,13 +102,15 @@ class room
         cout<<"\n Father's E-mail id of the student\n"<<femail;
         cout<<"\n Father's Phone Number of the student\n"<<fphone;
         }
-        if(avability==1)
+        if(avability==0)
         {
-            cout<<"\t This is Room is not allocated to anyone";
+            cout<<"Room Number :"<<roomn<<"\n";
+            cout<<"\t This is Room is not allocated to anyone\t\n";
         }
         if(avability==2)
         {
-            cout<<"\t This is Room is not Ready for allocation";
+            cout<<"Room Number :"<<roomn<<"\n";
+            cout<<"\t This is Room is not Ready for allocation\t \n";
         }
 
     }
@@ -117,8 +119,12 @@ class room
 
 int main()
 {
-    room a;
-    a.Assign();
-    a.display();
+    int no_floor , no_room;
+    cout<<"enter the number room on each floor ";
+    cin>>no_room;
+    cout<<"enter the number of floors";
+    cin>>no_floor;
+    room* Room=new room[no_room*no_floor];
+    Room[2].display();
     return 0;
 }
