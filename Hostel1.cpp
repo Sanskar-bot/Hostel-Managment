@@ -1,9 +1,15 @@
 #include <iostream>
 #include <string>
+#include <fstream>
+
 using namespace std;
-static int global_count=100;
+
+static int global_count=1;
+static int global_count2=1;
+
 class room
 {
+
     //student details
     private:
     string name , address , father , email, femail ;
@@ -17,18 +23,15 @@ class room
     //deafault constructor
     room()
     {
-        if (global_count<=120)
+
+        roomn=(global_count2*100)+global_count;
+        global_count+=1;
+        if (global_count>20)
         {
-          global_count+=1;
-          roomn=global_count;
-        }
-        if (global_count>=120)
-        {
-          global_count=100+(global_count-120);
-          roomn=global_count;
+            global_count-=20;
+            global_count2+=1;
         }
         avability=0;
-       
 
     }
     //Function to assign room
@@ -56,6 +59,37 @@ class room
 
 
     }
+
+
+    //search by room number ;
+    void roomsearch(int b)
+    {
+        if(roomn==b)
+        {
+            display();
+        }
+    }
+
+
+    //search  by name
+    void namesearch(string b)
+    {
+        if(name==b)
+        {
+            display();
+        }
+    }
+
+    //search  by enrollment
+    void enrollsearch(long c)
+    {
+        if(enroll==c)
+        {
+            display();
+        }
+    }
+
+
     //functiom to deallocate  room 
     void deallocate()
     {
@@ -71,6 +105,8 @@ class room
         phone=0;
         fphone=0;
     }
+
+
     //function to delist the room 
     void delist()
     {
@@ -85,6 +121,8 @@ class room
       phone=0;
       fphone=0;
     }
+
+
     //function to display room status
     void display()
     {
@@ -119,12 +157,41 @@ class room
 
 int main()
 {
-    int no_floor , no_room;
-    cout<<"enter the number room on each floor ";
-    cin>>no_room;
+    int no_floor ,total,i;
     cout<<"enter the number of floors";
     cin>>no_floor;
-    room* Room=new room[no_room*no_floor];
-    Room[2].display();
+    room* Room=new room[20*no_floor];
+    total=no_floor*20;
+
+//room search
+    int desiredroom;
+    cout<<"enter the room number you wanna search";
+    cin>>desiredroom;
+    for(i=0;i<=total;i++)
+    {
+        Room[i].roomsearch(desiredroom);
+    }
+
+//name search
+    string desiredname;
+    cout<<"enter the Name you wanna search";
+    cin>>desiredname;
+    for(i=0;i<=total;i++)
+    {
+        Room[i].namesearch(desiredname);
+    }
+
+//enrollment search
+    long desiredenroll;
+    cout<<"enter the Name you wanna search";
+    cin>>desiredenroll;
+    for(i=0;i<=total;i++)
+    {
+        Room[i].enrollsearch(desiredenroll);
+    }
+
+
+   //Room[2].display();
+
     return 0;
 }
