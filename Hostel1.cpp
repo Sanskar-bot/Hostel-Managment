@@ -11,15 +11,35 @@ static int global_count2=1;
 int snotoroom(int serialno)
 {
         int roomno;
-        roomno=100*(serialno/20)+(serialno%20);
-        return roomno;
+        roomno=100*((serialno/20)+1)+(serialno%20);
+        return roomno+1;
 }
 int roomtosno(int roomno)
 {
-        int serial;
-        serial=((roomno/100)-1)*20+(roomno%10);
-        return serial-1;
+        if (roomno >= 101) 
+        {
+         if (roomno <= 120)
+          {
+            return roomno - 101;
+          } 
+        else
+        {
+            int floorNumber = (roomno - 101) / 20 + 1;
+            if(roomno%100==20)
+             return (((roomno - 101) + (floorNumber - 1) * 20)%100+((roomno - 101) + (floorNumber - 1) * 20)/10)-1;
+            else
+             return (((roomno - 101) + (floorNumber - 1) * 20)%100+((roomno - 101) + (floorNumber - 1) * 20)/10);
+        }
+    } 
+    if((roomno%100)>20) 
+    {
+        return -1; // Handle invalid room numbers
+    }
 }
+
+
+       
+
 class room
 {
 
@@ -128,13 +148,14 @@ class room
     {
         
         avability=1;
-
+        cin.ignore();
         cout<<" Name of the student\n";
         getline(cin,name);
         cout<<" Enrollment Number of the student\n";
          cin>>enroll;
         cout<<" Phone number of the student\n";
          cin>>phone;
+         cin.ignore();
         cout<<" Address of the student\n";
          getline(cin,address);
         cout<<" E-mail id of the student\n";
@@ -230,7 +251,7 @@ class room
       
       avability=0;
       if(avability==0)
-        cout<<"room is delisted successfully";
+        cout<<"Room is Relisted successfully";
      wrrite();
     }
 
@@ -273,7 +294,7 @@ int main()
 
  
     int no_floor ,total,i, choice,infi=0;
-    cout<<"enter the number of floors";
+    cout<<"enter the number of floors:";
     cin>>no_floor;
     room* Room=new room[20*no_floor];
     total=no_floor*20;
@@ -322,8 +343,8 @@ while(infi==0)
       {
       case 1:
       {
-        cout<<"Room No."<<y<<"  is already allocated to someone \n are you sure you wanna Reallocate it to someoneelse \n1.yes \n2.no";
-        cin>>choice;
+        cout<<"\nRoom No."<<Room[y].roomn<<"  is already allocated to someone \n are you sure you wanna Reallocate it to someoneelse \n1.yes \n2.no";
+        cin>>choice2;
         if(choice2==1)
          Room[y].avability=0;
       }
@@ -331,7 +352,7 @@ while(infi==0)
 
       case 2:
       {
-        cout<<"Room No."<<y<<"  is not ready for allocation \n are you sure you wanna List it back \n1.yes \n2.no";
+        cout<<"\nRoom No."<<y<<"  is not ready for allocation \n are you sure you wanna List it back \n1.yes \n2.no";
         if(choice2==1)
          Room[y].avability=0;
       }
@@ -357,7 +378,7 @@ while(infi==0)
     while(deallo!=0)
     {
         
-     cout<<"enter the room number you wanna deallocate \n0. EXIT\n";
+     cout<<"\nEnter the room number you wanna deallocate \n0. EXIT\n";
      cin>>deallo;
      if(deallo!=0)
      {
@@ -376,7 +397,7 @@ while(infi==0)
     while(delistr!=0)
     {
         
-     cout<<"enter the room number you wanna delist \n0. EXIT\n";
+     cout<<"\nEnter the room number you wanna delist \n0. EXIT\n";
      cin>>delistr;
      if(delistr!=0)
      {
@@ -396,7 +417,7 @@ while(infi==0)
     while(relistr!=0)
     {
         
-     cout<<"enter the room number you wanna Relist \n0. EXIT\n";
+     cout<<"\nEnter the room number you wanna Relist \n0. EXIT\n";
      cin>>relistr;
      if(relistr!=0)
      {
@@ -415,7 +436,7 @@ while(infi==0)
     case 5:
 //room search
     
-    cout<<"enter the room number you wanna search";
+    cout<<"\nEnter the room number you wanna search";
     cin>>desiredroom;
     for(i=0;i<total;i++)
     {
@@ -426,7 +447,7 @@ while(infi==0)
     case 6:
 //name search
     
-    cout<<"enter the Name you wanna search";
+    cout<<"\nEnter the Name you wanna search";
     cin>>desiredname;
     for(i=0;i<total;i++)
     {
@@ -437,7 +458,7 @@ while(infi==0)
     case 7:
 //enrollment search
    
-    cout<<"enter the Name you wanna search";
+    cout<<"\nEnter the Name you wanna search";
     cin>>desiredenroll;
     for(i=0;i<total;i++)
     {
