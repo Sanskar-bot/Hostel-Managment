@@ -2,18 +2,23 @@
 #include <string>
 #include <fstream>
 #include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
 static int global_count=1;
 static int global_count2=1;
 
+
+//index number to value 
 int snotoroom(int serialno)
 {
         int roomno;
         roomno=100*((serialno/20)+1)+(serialno%20);
         return roomno+1;
 }
+
+//room number to index value
 int roomtosno(int roomno)
 {
         if (roomno >= 101) 
@@ -35,6 +40,16 @@ int roomtosno(int roomno)
     {
         return -1; // Handle invalid room numbers
     }
+    return 0;
+}
+
+//to check every value entered by user
+int check(int A,int B)
+{
+    if((A/100)<=B&&(A%100)<=20)
+     return 1;
+    else
+    return 0;
 }
 
 
@@ -187,23 +202,25 @@ class room
 
 
     //search  by name
-    void namesearch(string b)
+    int namesearch(string b)
     {
         if(name==b)
         {
-            display();
-            wrrite();
+            return 1;
         }
+        else 
+         return 0;
     }
 
     //search  by enrollment
-    void enrollsearch(long c)
+    int enrollsearch(long c)
     {
         if(enroll==c)
         {
-            display();
-            wrrite();
+            return 1;
         }
+        else 
+         return 0;
     }
 
 
@@ -300,6 +317,7 @@ int main()
     total=no_floor*20;
 while(infi==0)
 {
+    system("clear");
     cout<<"\t ********\tMENU\t********* \t \n";
     cout<<"1.Allocate Rooms \n";
     cout<<"2.Deallocate Rooms \n";
@@ -318,6 +336,9 @@ while(infi==0)
      int deallo=1,snodeallo;
      int delistr=1,snodelistr;
      int relistr=1,snorelistr;
+     int XX=0;
+     int YY=0;
+     int breakc;
      
 
     
@@ -327,17 +348,20 @@ while(infi==0)
 
     case 1:
 //seat allocation feature
+    
     while(roomallo!=0)
     {
         int y, choice2=0;
+        system("clear");
       cout<<"\t\t*********Room Allocation************\t\n";
       cout<<"Enter the Room number You wanna allot \n";
       cout<<"0. EXIT\n";
       cin>>roomallo;
       y=roomtosno(roomallo);
-
-      if(roomallo!=0)
-      {
+       if(check(roomallo,no_floor))
+    {
+       if(roomallo!=0)
+       {
         //switch to handle all 3 kinds of room
       switch(Room[y].avability)
       {
@@ -368,18 +392,27 @@ while(infi==0)
       }
 
      
+    }
+    
+    else
+     cout<<"\nNUMBER entered by you is not correct\n";
+    cout<<"Enter Any Number to continue";
+    cin>>breakc;
     };
+    
     break;
 
 
     case 2:
 //deallocate a room
-    
+    system("clear");
     while(deallo!=0)
     {
         
      cout<<"\nEnter the room number you wanna deallocate \n0. EXIT\n";
      cin>>deallo;
+      if(check(deallo,no_floor))
+    {
      if(deallo!=0)
      {
         snodeallo=roomtosno(deallo);
@@ -387,18 +420,26 @@ while(infi==0)
     
      };
      
+    }
+    
+    else
+     cout<<"\nnumber entered by you ,is not correct\n";
     };
+    cout<<"Enter Any Number to continue";
+    cin>>breakc;
      break;
 
 
      case 3:
 //delist a room
-    
+    system("clear");
     while(delistr!=0)
     {
         
      cout<<"\nEnter the room number you wanna delist \n0. EXIT\n";
      cin>>delistr;
+     if(check(delistr,no_floor))
+    {
      if(delistr!=0)
      {
         snodelistr=roomtosno(delistr);
@@ -407,18 +448,26 @@ while(infi==0)
     
      };
      
+    }
+    
+    else
+     cout<<"\nnumber entered by you ,is not correct\n";
     };
+    cout<<"Enter Any Number to continue";
+    cin>>breakc;
      break;
     
 
     case 4:
 //relist
-
+     system("clear");
     while(relistr!=0)
     {
         
      cout<<"\nEnter the room number you wanna Relist \n0. EXIT\n";
      cin>>relistr;
+     if(check(relistr,no_floor))
+    {
      if(relistr!=0)
      {
         snorelistr=roomtosno(relistr);
@@ -427,7 +476,14 @@ while(infi==0)
     
      };
      
+    }
+    
+    else
+     cout<<"\nnumber entered by you ,is not correct\n"; 
     };
+    cout<<"Enter Any Number to continue";
+    cin>>breakc;
+    break;
 
 
 
@@ -435,41 +491,78 @@ while(infi==0)
 
     case 5:
 //room search
-    
-    cout<<"\nEnter the room number you wanna search";
+    system("clear");
+    cout<<"\nEnter the room number you wanna search:";
     cin>>desiredroom;
+    if(check(desiredroom,no_floor))
+    {
     for(i=0;i<total;i++)
     {
         Room[i].roomsearch(desiredroom);
     }
+    ;
+    }
+    
+    else
+     cout<<"\nnumber entered by you ,is not correct\n";
+    cout<<"Enter Any Number to continue";
+    cin>>breakc;
     break;
+
 
     case 6:
 //name search
-    
-    cout<<"\nEnter the Name you wanna search";
+    system("clear");
+    cout<<"\nEnter the Name you wanna search:";
     cin>>desiredname;
     for(i=0;i<total;i++)
     {
-        Room[i].namesearch(desiredname);
+        if(Room[i].namesearch(desiredname)==1)
+        {
+         YY=i;
+        cout<<YY;
+        }
     }
+    if(YY!=0)
+    {
+        Room[YY].display();
+        Room[YY].wrrite();
+    }
+    else
+     cout<<"\nNO Match\n";
+    cout<<"Enter Any Number to continue";
+    cin>>breakc;
     break;
+
 
     case 7:
 //enrollment search
-   
-    cout<<"\nEnter the Name you wanna search";
+   system("clear");
+    cout<<"\nEnter the Enrollment Number you wanna search:";
     cin>>desiredenroll;
     for(i=0;i<total;i++)
     {
-        Room[i].enrollsearch(desiredenroll);
+        if((Room[i].enrollsearch(desiredenroll))==1)
+        {
+         XX=i;
+        cout<<XX;
+        }
     }
+    if(XX!=0)
+    {
+        Room[XX].display();
+        Room[XX].wrrite();
+    }
+    else
+     cout<<"\nNO Match\n";
+    cout<<"Enter Any Number to continue";
+    cin>>breakc;
     break;
 
 
     case 8:
 
-    infi=0;
+    infi=1;
     cout<<"\t*********************Thank You For Using Our Services************\t";
     break;
 
