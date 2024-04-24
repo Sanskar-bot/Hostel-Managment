@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 
 using namespace std;
 
@@ -16,8 +17,8 @@ int snotoroom(int serialno)
 int roomtosno(int roomno)
 {
         int serial;
-        serial=(roomno/100)*20+(roomno%10);
-        return serial;
+        serial=((roomno/100)-1)*20+(roomno%10);
+        return serial-1;
 }
 class room
 {
@@ -28,15 +29,13 @@ class room
     long enroll , phone , fphone;
     
     //room details
-  //  int roomn,avability;
 
- 
     public:
     int roomn,avability;
     //deafault constructor
     room()
     {
-        ofstream out("Hostel.txt",ios::app);
+       
         roomn=(global_count2*100)+global_count;
         global_count+=1;
         if (global_count>20)
@@ -45,11 +44,85 @@ class room
             global_count2+=1;
         }
         
-        avability=0;
-        out<<"Room No. :"<<roomn<<", avability :"<<avability<<"\n";
+       avability=0;
+       name="NA";
+       address="NA";
+       father="NA";
+       email="NA";
+       femail="NA";
+       enroll=0;
+       phone=0;
+       fphone=0;
+       
         
+        write();
 
     }
+
+
+//writing Data in TXT file
+    void write()
+     {
+
+     ofstream outfile("Hostel_data.txt", ios::app);
+
+      if (outfile.is_open())
+       {
+         time_t now = time(0);
+
+    
+         tm* local_time = std::localtime(&now);
+         outfile<<"Current Date and Time: "
+              << (local_time->tm_year + 1900) << '-'
+              << (local_time->tm_mon + 1) << '-'
+              << local_time->tm_mday << " | "
+              << local_time->tm_hour << ':'
+              << local_time->tm_min << ':'
+              << local_time->tm_sec << '\n';
+        outfile <<"Room Number :"<<roomn<<" | Avability :"<<avability<< " | Student Name :"<<name<<" | Student's Enrollment Number :"<<enroll<<" | Student's E-mail ID:"<<email<<" | Address :"<<address<<" | Father's Name :"<<father<<" | Father's Phone Number :"<<fphone<<" | Father's E-mail ID :"<<femail <<"\n" <<endl;
+        outfile.close();
+
+       }  
+
+       else
+        {
+
+        cout << "\nUnable to open file for appending.\n" << endl;
+       }
+
+    }
+
+    void wrrite()
+     {
+
+     ofstream outfile("Hostel_data.txt", ios::app);
+
+      if (outfile.is_open())
+       {
+         time_t now = time(0);
+
+    
+         tm* local_time = std::localtime(&now);
+         outfile<<"\t\t\t\t\t*******************************************************\t\t\t\t\t\n";
+         outfile<<"Current Date and Time: "
+              << (local_time->tm_year + 1900) << '-'
+              << (local_time->tm_mon + 1) << '-'
+              << local_time->tm_mday << " | "
+              << local_time->tm_hour << ':'
+              << local_time->tm_min << ':'
+              << local_time->tm_sec << '\n';
+        outfile <<"Room Number :"<<roomn<<" | Avability :"<<avability<< " | Student Name :"<<name<<" | Student's Enrollment Number :"<<enroll<<" | Student's E-mail ID:"<<email<<" | Address :"<<address<<" | Father's Name :"<<father<<" | Father's Phone Number :"<<fphone<<" | Father's E-mail ID :"<<femail <<"\n" <<endl;
+        outfile.close();
+
+       }  
+
+       else
+        {
+
+        cout << "\nUnable to open file for appending.\n" << endl;
+        }
+     }
+
     //Function to assign room
     void Assign()
     {
@@ -57,21 +130,22 @@ class room
         avability=1;
 
         cout<<" Name of the student\n";
-        cin>>name;
+        getline(cin,name);
         cout<<" Enrollment Number of the student\n";
-        cin>>enroll;
+         cin>>enroll;
         cout<<" Phone number of the student\n";
-        cin>>phone;
+         cin>>phone;
         cout<<" Address of the student\n";
-        cin>>address;
+         getline(cin,address);
         cout<<" E-mail id of the student\n";
-        cin>>email;
+         getline(cin,email);
         cout<<" father's name of the student\n";
-        cin>>father;
+         getline(cin,father);
         cout<<" Father's E-mail id of the student\n";
-        cin>>femail;
+         getline(cin,femail);
         cout<<" Father's Phone Number of the student\n";
-        cin>>fphone;
+         cin>>fphone;
+        wrrite();
         
 
 
@@ -81,10 +155,11 @@ class room
     //search by room number ;
     void roomsearch(int b)
     {
-        
+       
         if(roomn==b)
         {
             display();
+            wrrite();
         }
         
     }
@@ -96,6 +171,7 @@ class room
         if(name==b)
         {
             display();
+            wrrite();
         }
     }
 
@@ -105,6 +181,7 @@ class room
         if(enroll==c)
         {
             display();
+            wrrite();
         }
     }
 
@@ -112,7 +189,7 @@ class room
     //functiom to deallocate  room 
     void deallocate()
     {
-        cout<<"room is delocated sucessfully";
+        cout<<"room is delocated sucessfully\n";
         avability=0;
         cout<<"avability is updated to 0;";
         name="NA";
@@ -123,14 +200,17 @@ class room
         enroll=0;
         phone=0;
         fphone=0;
+        wrrite();
     }
 
 
     //function to delist the room 
     void delist()
     {
-      cout<<"room is delisted successfully";
+      
       avability=2;
+      if(avability==2)
+        cout<<"room is delisted successfully";
       name="NA";
       address="NA";
       father="NA";
@@ -139,6 +219,19 @@ class room
       enroll=0;
       phone=0;
       fphone=0;
+      wrrite();
+    }
+
+
+
+    //function to Relist the room 
+    void relist()
+    {
+      
+      avability=0;
+      if(avability==0)
+        cout<<"room is delisted successfully";
+     wrrite();
     }
 
 
@@ -184,7 +277,8 @@ int main()
     cin>>no_floor;
     room* Room=new room[20*no_floor];
     total=no_floor*20;
-while(infi==0){
+while(infi==0)
+{
     cout<<"\t ********\tMENU\t********* \t \n";
     cout<<"1.Allocate Rooms \n";
     cout<<"2.Deallocate Rooms \n";
@@ -200,10 +294,18 @@ while(infi==0){
      long desiredenroll;
      int desiredroom;
      string desiredname;
+     int deallo=1,snodeallo;
+     int delistr=1,snodelistr;
+     int relistr=1,snorelistr;
+     
+
     
     switch(choice)
     {
+
+
     case 1:
+//seat allocation feature
     while(roomallo!=0)
     {
         int y, choice2=0;
@@ -215,6 +317,7 @@ while(infi==0){
 
       if(roomallo!=0)
       {
+        //switch to handle all 3 kinds of room
       switch(Room[y].avability)
       {
       case 1:
@@ -245,7 +348,65 @@ while(infi==0){
 
      
     };
+    break;
+
+
+    case 2:
+//deallocate a room
+    
+    while(deallo!=0)
+    {
+        
+     cout<<"enter the room number you wanna deallocate \n0. EXIT\n";
+     cin>>deallo;
+     if(deallo!=0)
+     {
+        snodeallo=roomtosno(deallo);
+        Room[snodeallo].deallocate();
+    
+     };
+     
+    };
      break;
+
+
+     case 3:
+//delist a room
+    
+    while(delistr!=0)
+    {
+        
+     cout<<"enter the room number you wanna delist \n0. EXIT\n";
+     cin>>delistr;
+     if(delistr!=0)
+     {
+        snodelistr=roomtosno(delistr);
+        cout<<snodelistr;
+        Room[snodelistr].delist();
+    
+     };
+     
+    };
+     break;
+    
+
+    case 4:
+//relist
+
+    while(relistr!=0)
+    {
+        
+     cout<<"enter the room number you wanna Relist \n0. EXIT\n";
+     cin>>relistr;
+     if(relistr!=0)
+     {
+        snorelistr=roomtosno(relistr);
+        cout<<snorelistr;
+        Room[snorelistr].relist();
+    
+     };
+     
+    };
 
 
 
