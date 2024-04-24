@@ -7,6 +7,18 @@ using namespace std;
 static int global_count=1;
 static int global_count2=1;
 
+int snotoroom(int serialno)
+{
+        int roomno;
+        roomno=100*(serialno/20)+(serialno%20);
+        return roomno;
+}
+int roomtosno(int roomno)
+{
+        int serial;
+        serial=(roomno/100)*20+(roomno%10);
+        return serial;
+}
 class room
 {
 
@@ -16,10 +28,11 @@ class room
     long enroll , phone , fphone;
     
     //room details
-    int roomn,avability;
+  //  int roomn,avability;
 
  
     public:
+    int roomn,avability;
     //deafault constructor
     room()
     {
@@ -183,14 +196,63 @@ while(infi==0){
     cout<<"8.Quit";
     cout<<"\n\n\n Enter Your choice\n";
     cin>>choice;
+     int roomallo=1;
      long desiredenroll;
      int desiredroom;
      string desiredname;
     
     switch(choice)
     {
-//room search
+    case 1:
+    while(roomallo!=0)
+    {
+        int y, choice2=0;
+      cout<<"\t\t*********Room Allocation************\t\n";
+      cout<<"Enter the Room number You wanna allot \n";
+      cout<<"0. EXIT\n";
+      cin>>roomallo;
+      y=roomtosno(roomallo);
+
+      if(roomallo!=0)
+      {
+      switch(Room[y].avability)
+      {
+      case 1:
+      {
+        cout<<"Room No."<<y<<"  is already allocated to someone \n are you sure you wanna Reallocate it to someoneelse \n1.yes \n2.no";
+        cin>>choice;
+        if(choice2==1)
+         Room[y].avability=0;
+      }
+      break;
+
+      case 2:
+      {
+        cout<<"Room No."<<y<<"  is not ready for allocation \n are you sure you wanna List it back \n1.yes \n2.no";
+        if(choice2==1)
+         Room[y].avability=0;
+      }
+      break;
+
+      case 0:
+      {
+        Room[y].Assign();
+      }
+      break;
+
+      }
+      }
+
+     
+    };
+     break;
+
+
+
+
+
     case 5:
+//room search
     
     cout<<"enter the room number you wanna search";
     cin>>desiredroom;
@@ -233,4 +295,5 @@ while(infi==0){
 }
     delete[] Room; // Free the memory allocated for Room
     return 0;      // Exit the program
-};
+}
+;
