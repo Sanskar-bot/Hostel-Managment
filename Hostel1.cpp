@@ -23,7 +23,7 @@ class room
     //deafault constructor
     room()
     {
-
+        ofstream out("Hostel.txt",ios::app);
         roomn=(global_count2*100)+global_count;
         global_count+=1;
         if (global_count>20)
@@ -31,7 +31,10 @@ class room
             global_count-=20;
             global_count2+=1;
         }
+        
         avability=0;
+        out<<"Room No. :"<<roomn<<", avability :"<<avability<<"\n";
+        
 
     }
     //Function to assign room
@@ -56,6 +59,7 @@ class room
         cin>>femail;
         cout<<" Father's Phone Number of the student\n";
         cin>>fphone;
+        
 
 
     }
@@ -64,10 +68,12 @@ class room
     //search by room number ;
     void roomsearch(int b)
     {
+        
         if(roomn==b)
         {
             display();
         }
+        
     }
 
 
@@ -157,41 +163,74 @@ class room
 
 int main()
 {
-    int no_floor ,total,i;
+
+
+ 
+    int no_floor ,total,i, choice,infi=0;
     cout<<"enter the number of floors";
     cin>>no_floor;
     room* Room=new room[20*no_floor];
     total=no_floor*20;
-
+while(infi==0){
+    cout<<"\t ********\tMENU\t********* \t \n";
+    cout<<"1.Allocate Rooms \n";
+    cout<<"2.Deallocate Rooms \n";
+    cout<<"3.Delist Rooms \n";
+    cout<<"4.Relist Rooms \n";
+    cout<<"5.Search Rooms \n";
+    cout<<"6.Search Student by name \n";
+    cout<<"7.Seatch Student by Enrollment nummber \n";
+    cout<<"8.Quit";
+    cout<<"\n\n\n Enter Your choice\n";
+    cin>>choice;
+     long desiredenroll;
+     int desiredroom;
+     string desiredname;
+    
+    switch(choice)
+    {
 //room search
-    int desiredroom;
+    case 5:
+    
     cout<<"enter the room number you wanna search";
     cin>>desiredroom;
-    for(i=0;i<=total;i++)
+    for(i=0;i<total;i++)
     {
         Room[i].roomsearch(desiredroom);
     }
+    break;
 
+    case 6:
 //name search
-    string desiredname;
+    
     cout<<"enter the Name you wanna search";
     cin>>desiredname;
-    for(i=0;i<=total;i++)
+    for(i=0;i<total;i++)
     {
         Room[i].namesearch(desiredname);
     }
+    break;
 
+    case 7:
 //enrollment search
-    long desiredenroll;
+   
     cout<<"enter the Name you wanna search";
     cin>>desiredenroll;
-    for(i=0;i<=total;i++)
+    for(i=0;i<total;i++)
     {
         Room[i].enrollsearch(desiredenroll);
     }
+    break;
 
 
-   //Room[2].display();
+    case 8:
 
-    return 0;
+    infi=0;
+    cout<<"\t*********************Thank You For Using Our Services************\t";
+    break;
+
+    }
 }
+    delete[] Room; // Free the memory allocated for Room
+    return 0;      // Exit the program
+};
