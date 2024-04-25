@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 #include <string>
 #include <fstream>
 #include <ctime>
@@ -204,8 +205,10 @@ class room
     //search  by name
     int namesearch(string b)
     {
+        
         if(name==b)
         {
+            cout<<"yes";
             return 1;
         }
         else 
@@ -517,18 +520,15 @@ while(infi==0)
     cin>>desiredname;
     for(i=0;i<total;i++)
     {
+        
         if(Room[i].namesearch(desiredname)==1)
         {
-         YY=i;
-        cout<<YY;
+         Room[YY].display();
+         Room[YY].wrrite();
+         break;
         }
     }
-    if(YY!=0)
-    {
-        Room[YY].display();
-        Room[YY].wrrite();
-    }
-    else
+    if(Room[i].namesearch(desiredname)==0)
      cout<<"\nNO Match\n";
     cout<<"Enter Any Number to continue";
     cin>>breakc;
